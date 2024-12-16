@@ -1,0 +1,245 @@
+kotlin version: 2.0.0
+error message: org.jetbrains.kotlin.backend.common.CompilationException: Back-end: Please report this problem https://kotl.in/issue
+C:/Users/gera/AndroidStudioProjects/TicketsApp/core/src/main/java/com/example/core/data/model/TicketModelImpl.kt:16:1
+Problem with `@OptIn(markerClass = [ExperimentalSerializationApi::class])
+@Serializable
+@Serializer(forClass = Date::class)
+class TicketModelImpl : TicketModel, KSerializer<Date> {
+  @RequiresApi(value = 26)
+  constructor(idTicket: Int, idDepartment: Int, dateOfCreated: LocalDate, dateOfCompleted: LocalDate, status: Int, authorId: Int, executorId: Int, type: Int, description: String) /* primary */ {
+    super/*Any*/()
+    /* <init>() */
+
+  }
+
+  @SerialName(value = "ID_Ticket")
+  override val idTicket: Int
+    field = idTicket
+    override get
+
+  @SerialName(value = "ID_Department")
+  override val idDepartment: Int
+    field = idDepartment
+    override get
+
+  @SerialName(value = "DateOfCreation")
+  @Serializable(with = LocalDateSerializer::class)
+  override val dateOfCreated: LocalDate
+    field = dateOfCreated
+    override get
+
+  @SerialName(value = "DateOfCompletion")
+  @Serializable(with = LocalDateSerializer::class)
+  override val dateOfCompleted: LocalDate
+    field = dateOfCompleted
+    override get
+
+  @SerialName(value = "Status")
+  override val status: Int
+    field = status
+    override get
+
+  @SerialName(value = "Author")
+  override val authorId: Int
+    field = authorId
+    override get
+
+  @SerialName(value = "Executor")
+  override val executorId: Int
+    field = executorId
+    override get
+
+  @SerialName(value = "Type")
+  override val type: Int
+    field = type
+    override get
+
+  @SerialName(value = "Description")
+  override val description: String
+    field = description
+    override get
+
+  companion object Companion {
+    val $childSerializers: Array<KSerializer<Any>>
+      field = arrayOf<KSerializer<Any>>(elements = [null, null, LocalDateSerializer(), LocalDateSerializer(), null, null, null, null, null, PolymorphicSerializer</* null */>(baseClass = SerialDescriptor::class)])
+      private get(): Array<KSerializer<Any>> {
+        return <this>.#$childSerializers
+      }
+
+    private constructor() /* primary */ {
+      super/*Any*/()
+      /* <init>() */
+
+    }
+
+    @RequiresApi(value = 26)
+    fun TicketModel.toBody(): TicketModelImpl {
+      return TicketModelImpl(idTicket = <this>.<get-idTicket>(), idDepartment = <this>.<get-idDepartment>(), dateOfCreated = <this>.<get-dateOfCreated>(), dateOfCompleted = <this>.<get-dateOfCompleted>(), status = <this>.<get-status>(), authorId = <this>.<get-authorId>(), executorId = <this>.<get-executorId>(), type = <this>.<get-type>(), description = <this>.<get-description>())
+    }
+
+    fun serializer(): KSerializer<TicketModelImpl>
+
+    /* fake */ override operator fun equals(other: Any?): Boolean
+
+    /* fake */ override fun hashCode(): Int
+
+    /* fake */ override fun toString(): String
+
+  }
+
+  override val descriptor: SerialDescriptor
+    override get
+
+  override fun serialize(encoder: Encoder, value: Date) {
+    val tmp0_desc: SerialDescriptor = <this>.<get-descriptor>()
+    val tmp1_output: CompositeEncoder = encoder.beginStructure(descriptor = tmp0_desc)
+    tmp1_output.endStructure(descriptor = tmp0_desc)
+  }
+
+  override fun deserialize(decoder: Decoder): Date
+
+  @Deprecated(message = "This synthesized declaration should not be used directly", level = DeprecationLevel.HIDDEN)
+  object $serializer : GeneratedSerializer<TicketModelImpl> {
+    private constructor() /* primary */ {
+      super/*Any*/()
+      /* <init>() */
+
+    }
+
+    override fun serialize(encoder: Encoder, value: TicketModelImpl)
+
+    override fun deserialize(decoder: Decoder): TicketModelImpl
+
+    override val descriptor: SerialDescriptor
+      override get
+
+    override fun childSerializers(): Array<KSerializer<*>>
+
+    /* fake */ override fun typeParametersSerializers(): Array<KSerializer<*>>
+
+    /* fake */ override operator fun equals(other: Any?): Boolean
+
+    /* fake */ override fun hashCode(): Int
+
+    /* fake */ override fun toString(): String
+
+  }
+
+  /* fake */ override fun toBody()
+
+  /* fake */ override operator fun equals(other: Any?): Boolean
+
+  /* fake */ override fun hashCode(): Int
+
+  /* fake */ override fun toString(): String
+
+  @JvmStatic
+  internal fun write$Self(self: TicketModelImpl, output: CompositeEncoder, serialDesc: SerialDescriptor) {
+    val tmp0_cached: Array<KSerializer<Any>> = Companion.<get-$childSerializers>()
+    output.encodeIntElement(descriptor = serialDesc, index = 0, value = self.<get-idTicket>())
+    output.encodeIntElement(descriptor = serialDesc, index = 1, value = self.<get-idDepartment>())
+    output.encodeSerializableElement<LocalDate>(descriptor = serialDesc, index = 2, serializer = tmp0_cached.get(index = 2), value = self.<get-dateOfCreated>())
+    output.encodeSerializableElement<LocalDate>(descriptor = serialDesc, index = 3, serializer = tmp0_cached.get(index = 3), value = self.<get-dateOfCompleted>())
+    output.encodeIntElement(descriptor = serialDesc, index = 4, value = self.<get-status>())
+    output.encodeIntElement(descriptor = serialDesc, index = 5, value = self.<get-authorId>())
+    output.encodeIntElement(descriptor = serialDesc, index = 6, value = self.<get-executorId>())
+    output.encodeIntElement(descriptor = serialDesc, index = 7, value = self.<get-type>())
+    output.encodeStringElement(descriptor = serialDesc, index = 8, value = self.<get-description>())
+    output.encodeSerializableElement<SerialDescriptor>(descriptor = serialDesc, index = 9, serializer = tmp0_cached.get(index = 9), value = self.<get-descriptor>())
+  }
+
+  internal constructor(seen0: Int, idTicket: Int, idDepartment: Int, dateOfCreated: LocalDate?, dateOfCompleted: LocalDate?, status: Int, authorId: Int, executorId: Int, type: Int, description: String?, descriptor: SerialDescriptor?, serializationConstructorMarker: SerializationConstructorMarker?) {
+    when {
+      EQEQ(arg0 = 1023, arg1 = 1023.and(other = seen0)).not() -> throwMissingFieldException(seen = seen0, goldenMask = 1023, descriptor = $serializer.<get-descriptor>())
+    }
+    super/*Any*/()
+    <this>.#idTicket = idTicket
+    <this>.#idDepartment = idDepartment
+    <this>.#dateOfCreated = dateOfCreated
+    <this>.#dateOfCompleted = dateOfCompleted
+    <this>.#status = status
+    <this>.#authorId = authorId
+    <this>.#executorId = executorId
+    <this>.#type = type
+    <this>.#description = description
+    <this>.#descriptor = descriptor
+  }
+
+  init {
+    val tmp0_serialDesc: PluginGeneratedSerialDescriptor = PluginGeneratedSerialDescriptor(serialName = "java.util.Date", generatedSerializer = null, elementsCount = 0)
+    <this>.#descriptor = tmp0_serialDesc
+  }
+
+}
+
+`
+Details: kotlinx.serialization compiler plugin internal error: unable to transform declaration, see cause
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializerClassLowering.lower(SerializationLoweringExtension.kt:228)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitClass(SerializationLoweringExtension.kt:46)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid$DefaultImpls.visitClass(IrElementVisitorVoid.kt:44)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitClass(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitClass(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlin.ir.declarations.IrClass.accept(IrClass.kt:72)
+	at org.jetbrains.kotlin.ir.declarations.IrFile.acceptChildren(IrFile.kt:34)
+	at org.jetbrains.kotlin.ir.visitors.IrVisitorsKt.acceptChildrenVoid(IrVisitors.kt:15)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitElement(SerializationLoweringExtension.kt:42)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid$DefaultImpls.visitPackageFragment(IrElementVisitorVoid.kt:168)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitPackageFragment(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid$DefaultImpls.visitFile(IrElementVisitorVoid.kt:184)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitFile(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid$DefaultImpls.visitFile(IrElementVisitorVoid.kt:180)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitFile(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt$runOnFileInOrder$1.visitFile(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlin.ir.declarations.IrFile.accept(IrFile.kt:28)
+	at org.jetbrains.kotlin.ir.visitors.IrVisitorsKt.acceptVoid(IrVisitors.kt:11)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtensionKt.runOnFileInOrder(SerializationLoweringExtension.kt:40)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializationLoweringExtension.generate(SerializationLoweringExtension.kt:193)
+	at org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt.applyIrGenerationExtensions(convertToIr.kt:260)
+	at org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt.convertToIrAndActualize(convertToIr.kt:139)
+	at org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt.convertToIrAndActualize$default(convertToIr.kt:65)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.convertToIrAndActualizeForJvm(jvmCompilerPipeline.kt:193)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.convertAnalyzedFirToIr(jvmCompilerPipeline.kt:167)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.compileModulesUsingFrontendIrAndLightTree(jvmCompilerPipeline.kt:138)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecute(K2JVMCompiler.kt:155)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecute(K2JVMCompiler.kt:50)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.execImpl(CLICompiler.kt:104)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.execImpl(CLICompiler.kt:48)
+	at org.jetbrains.kotlin.cli.common.CLITool.exec(CLITool.kt:101)
+	at org.jetbrains.kotlin.incremental.IncrementalJvmCompilerRunner.runCompiler(IncrementalJvmCompilerRunner.kt:453)
+	at org.jetbrains.kotlin.incremental.IncrementalJvmCompilerRunner.runCompiler(IncrementalJvmCompilerRunner.kt:62)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.doCompile(IncrementalCompilerRunner.kt:506)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compileImpl(IncrementalCompilerRunner.kt:423)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.tryCompileIncrementally$lambda$9$compile(IncrementalCompilerRunner.kt:249)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.tryCompileIncrementally(IncrementalCompilerRunner.kt:267)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compile(IncrementalCompilerRunner.kt:120)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.execIncrementalCompiler(CompileServiceImpl.kt:676)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.access$execIncrementalCompiler(CompileServiceImpl.kt:92)
+	at org.jetbrains.kotlin.daemon.CompileServiceImpl.compile(CompileServiceImpl.kt:1661)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:712)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:587)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:828)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:705)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:704)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.lang.IllegalStateException: org.jetbrains.kotlin.fir.lazy.Fir2IrLazyClass@2052119d is expected to have a primary constructor
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.IrPredicatesKt.getPrimaryConstructorOrFail(IrPredicates.kt:232)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializerIrGenerator.generateLoad$lambda$67(SerializerIrGenerator.kt:527)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.IrBuilderWithPluginContext.addFunctionBody(IrBuilderWithPluginContext.kt:48)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializerIrGenerator.generateLoad(SerializerIrGenerator.kt:367)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializerIrGenerator.generate(SerializerIrGenerator.kt:616)
+	at org.jetbrains.kotlinx.serialization.compiler.backend.ir.SerializerIrGenerator$Companion.generate(SerializerIrGenerator.kt:646)
+	at org.jetbrains.kotlinx.serialization.compiler.extensions.SerializerClassLowering.lower(SerializationLoweringExtension.kt:146)
+	... 57 more
+
+
