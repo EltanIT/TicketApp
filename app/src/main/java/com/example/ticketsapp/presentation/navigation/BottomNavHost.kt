@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.ticketsapp.presentation.CreateRequest.CreateRequestScreen
 import com.example.ticketsapp.presentation.Requests.RequestsScreen
-import com.example.ticketsapp.presentation.Search.SearchScreen
 import com.example.ticketsapp.presentation.Settings.SettingsScreen
 import com.example.ticketsapp.presentation.TechSpecials.TechSpecialsScreen
 
@@ -30,9 +29,6 @@ fun BottomNavHost(
         }
         composable(Route.TechSpecials.route) {
             TechSpecialsScreen()
-        }
-        composable(Route.Search.route) {
-            SearchScreen()
         }
         composable(Route.Settings.route) {
             SettingsScreen(

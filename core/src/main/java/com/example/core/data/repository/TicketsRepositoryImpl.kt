@@ -18,42 +18,6 @@ class TicketsRepositoryImpl(
     override suspend fun getAllTickets(): List<TicketModel> {
         val response = api.getAllTickets()
         return retrofitErrorHandler(response)
-
-//        return listOf(
-//            TicketModelImpl(
-//                id = 1,
-//                description = "fjkdlsjf;as",
-//                authorId = 1,
-//                executorId = 2,
-//                type = 1,
-//                departmentId = 2,
-//                createdAt = LocalDateTime(1000, Month.APRIL, 1, 2, 3, 5),
-//                completedAt = null,
-//                status = 1
-//            ),
-//            TicketModelImpl(
-//                id = 2,
-//                description = "fdsfsdfa;as",
-//                authorId = 1,
-//                executorId = 2,
-//                type = 1,
-//                departmentId = 2,
-//                createdAt = LocalDateTime(1000, Month.APRIL, 1, 2, 3, 5),
-//                completedAt = null,
-//                status = 1
-//            ),
-//            TicketModelImpl(
-//                id = 2,
-//                description = "fdsfsdfa;as",
-//                authorId = 1,
-//                executorId = 3,
-//                type = 2,
-//                departmentId = 1,
-//                createdAt = LocalDateTime(1000, Month.APRIL, 1, 2, 3, 5),
-//                completedAt = null,
-//                status = 3
-//            ),
-//        )
     }
 
 

@@ -9,10 +9,6 @@ val adminNavList = listOf(
         Route.Requests.route
     ),
     BottomNavItem(
-        R.drawable.search,
-        Route.Search.route
-    ),
-    BottomNavItem(
         R.drawable.user,
         Route.TechSpecials.route
     ),
@@ -25,10 +21,6 @@ val techSpecNavList = listOf(
     BottomNavItem(
         R.drawable.home,
         Route.Requests.route
-    ),
-    BottomNavItem(
-        R.drawable.search,
-        Route.Search.route
     ),
     BottomNavItem(
         R.drawable.setting,

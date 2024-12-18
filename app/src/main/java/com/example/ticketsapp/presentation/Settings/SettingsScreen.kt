@@ -28,11 +28,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.ticketsapp.presentation.Search.SearchEvent
 import com.example.ticketsapp.presentation.Settings.components.StatisticComponent
-import com.example.ticketsapp.presentation.common.SecondaryButton
 import com.example.ticketsapp.presentation.common.AboutTicketComponent
 import com.example.ticketsapp.presentation.common.CustomDialog
+import com.example.ticketsapp.presentation.common.SecondaryButton
 import com.example.ticketsapp.presentation.common.TicketComponent
 import com.example.ticketsapp.presentation.navigation.Route
 import com.example.ticketsapp.presentation.utils.Role
@@ -105,18 +104,6 @@ fun SettingsScreen(
                     viewModel.onEvent(SettingsEvent.OpenTackedRequests)
                 }
                 Spacer(modifier = Modifier.height(9.dp))
-                SecondaryButton(
-                    text = "Выполненные тикеты",
-                    textStyle = MaterialTheme.typography.titleSmall.copy(
-                        color = Color.Black
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth(0.75f)
-                        .height(50.dp)
-                ) {
-                    viewModel.onEvent(SettingsEvent.OpenCompletedRequests)
-                }
-                Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = "Выполнено: ${state.countCompletedTickets}",
                     style = MaterialTheme.typography.titleMedium.copy(
@@ -138,18 +125,6 @@ fun SettingsScreen(
                         .height(50.dp)
                 ) {
                     viewModel.onEvent(SettingsEvent.OpenTackedRequests)
-                }
-                Spacer(modifier = Modifier.height(9.dp))
-                SecondaryButton(
-                    text = "Выполненные тикеты",
-                    textStyle = MaterialTheme.typography.titleSmall.copy(
-                        color = Color.Black
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth(0.75f)
-                        .height(50.dp)
-                ) {
-                    viewModel.onEvent(SettingsEvent.OpenCompletedRequests)
                 }
                 Spacer(modifier = Modifier.height(9.dp))
                 SecondaryButton(
