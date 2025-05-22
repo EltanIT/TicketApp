@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.ticketsapp.presentation.NavigationScreen.NavigationScreen
+import com.example.ticketsapp.presentation.ResetPassword.ResetPasswordScreen
 import com.example.ticketsapp.presentation.SignIn.SignInScreen
 
 @Composable
@@ -22,6 +23,12 @@ fun MainNavHost(
     ){
         composable(Route.SignIn.route) {
             SignInScreen(
+                navController =  navHostController
+            )
+        }
+
+        composable(Route.ResetPassword.route) {
+            ResetPasswordScreen(
                 navController =  navHostController
             )
         }

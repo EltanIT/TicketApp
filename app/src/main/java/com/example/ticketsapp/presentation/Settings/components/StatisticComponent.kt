@@ -33,7 +33,7 @@ fun StatisticComponent(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = statisticData.name,
+            text = statisticData.executor.fio,
             style = MaterialTheme.typography.bodyLarge.copy(
                 lineHeight = 22.sp,
                 color = Color.Black
@@ -44,7 +44,7 @@ fun StatisticComponent(
         )
 
         Text(
-            text = "${statisticData.count} Тикет",
+            text = "${statisticData.tickets.size} Тикет",
             style = MaterialTheme.typography.bodyLarge.copy(
                 lineHeight = 22.sp,
                 color = Color.Black

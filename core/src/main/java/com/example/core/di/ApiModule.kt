@@ -4,6 +4,7 @@ import com.example.core.data.data_source.network.AuthApi
 import com.example.core.data.data_source.network.AuthorsApi
 import com.example.core.data.data_source.network.DepartmentApi
 import com.example.core.data.data_source.network.ExecutorApi
+import com.example.core.data.data_source.network.PasswordResetApi
 import com.example.core.data.data_source.network.RequestTypeApi
 import com.example.core.data.data_source.network.TicketApi
 import com.example.core.data.data_source.network.UserApi
@@ -18,8 +19,11 @@ import javax.net.ssl.X509TrustManager
 
 val apiModule = module {
 
-    val host = "https://26.221.108.163"
-    val gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
+    val host = "https://26.103.195.41"
+    val gson = GsonBuilder()
+        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        .setLenient()
+        .create()
 
     single<AuthApi> {
         Retrofit.Builder()
@@ -28,6 +32,15 @@ val apiModule = module {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(AuthApi::class.java)
+    }
+
+    single<PasswordResetApi> {
+        Retrofit.Builder()
+            .baseUrl("${host}:7086")
+            .client(getUnsafeOkHttpClient())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+            .create(PasswordResetApi::class.java)
     }
 
 

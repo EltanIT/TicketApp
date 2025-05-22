@@ -5,6 +5,7 @@ sealed class Route(
 ) {
 
     data object SignIn: Route("SignIn")
+    data object ResetPassword: Route("ResetPassword")
 
 
     data object Requests: Route("Requests")

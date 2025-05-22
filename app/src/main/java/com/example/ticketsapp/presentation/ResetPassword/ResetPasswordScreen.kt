@@ -1,7 +1,6 @@
-package com.example.ticketsapp.presentation.SignIn
+package com.example.ticketsapp.presentation.ResetPassword
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,9 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,23 +29,17 @@ import com.example.ticketsapp.R
 import com.example.ticketsapp.presentation.SignIn.components.AuthTextField
 import com.example.ticketsapp.presentation.common.PrimaryButton
 import com.example.ticketsapp.presentation.navigation.Route
-import com.example.ticketsapp.presentation.ui.theme.HintColor
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SignInScreen(
-    viewModel: SignInViewModel = koinViewModel(),
+fun ResetPasswordScreen(
+    viewModel: ResetPasswordViewModel = koinViewModel(),
     navController: NavController
 ) {
     val state = viewModel.state.value
-    
-    
-    LaunchedEffect(state.isComplete) {
-        if (state.isComplete){
-            navController.popBackStack(Route.SignIn.route, true)
-            navController.navigate(Route.MainScreen.route)
-        }
-    }
+
+
+
 
     val context = LocalContext.current
     LaunchedEffect(state.exception.isNotEmpty()) {
@@ -52,6 +47,28 @@ fun SignInScreen(
             Toast.makeText(context, state.exception, Toast.LENGTH_SHORT).show()
             viewModel.defaultException()
         }
+    }
+
+    LaunchedEffect(state.isComplete) {
+        if (state.isComplete){
+            navController.popBackStack(Route.ResetPassword.route, true)
+            navController.navigate(Route.SignIn.route)
+        }
+    }
+
+
+    IconButton(
+        onClick = {
+            navController.popBackStack()
+        },
+        Modifier.padding(horizontal = 30.dp, vertical = 16.dp)
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.back),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp),
+            tint = Color.Black
+        )
     }
 
 
@@ -76,19 +93,11 @@ fun SignInScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Вход",
+                text = "Сброс пароля",
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = MaterialTheme.colorScheme.primary
                 ),
                 color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Админ не грустный, он завис...",
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = HintColor
-                ),
-                color = HintColor
             )
         }
 
@@ -118,39 +127,16 @@ fun SignInScreen(
                 enabled = !state.isLoading,
                 isError = !state.emailValid,
                 onPassVisibleChange = {}) {
-                    viewModel.onEvent(SignInEvent.EnteredEmail(it))
+                viewModel.onEvent(ResetPasswordEvent.EnteredEmail(it))
             }
-            Spacer(modifier = Modifier.height(17.dp))
-            AuthTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.password,
-                hintText = "********",
-                enabled = !state.isLoading,
-                passIsVisible = state.passIsVisible,
-                onPassVisibleChange = {
-                    viewModel.onEvent(SignInEvent.ChangePasswordVisible)
-                }) {
-                viewModel.onEvent(SignInEvent.EnteredPassword(it))
-            }
-            Spacer(modifier = Modifier.height(15.dp))
-            Text(
-                text = "Забыли пароль?",
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.primary
-                ),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable {
-                    navController.navigate(Route.ResetPassword.route)
-                }
-            )
         }
-        
+
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(),
-            text = "Войти",
+            text = "Сбросить пароль",
             isLoading = state.isLoading
         ) {
-            viewModel.onEvent(SignInEvent.Login)
+            viewModel.onEvent(ResetPasswordEvent.ResetPassword)
         }
 
     }

@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-class UserModelImpl(
+data class UserModelImpl(
     @SerializedName("iD_User") override val id: Int,
     override val login: String,
     override val email: String,

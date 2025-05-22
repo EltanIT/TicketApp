@@ -1,5 +1,6 @@
 package com.example.ticketsapp.presentation.Settings
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -404,39 +405,50 @@ class SettingsViewModel(
             val executors = getAllExecutors()
             val tickets = getAllTicketsUseCase()
 
-            _state.value = state.value.copy(
+            var statistic = state.value.statistic
+
+            val job = viewModelScope.launch(Dispatchers.IO) {
                 statistic = executors.map {
                     StatisticData(
-                        name = it.id.toString(),
-                        count = 0
-                    )
-                }
-            )
-
-
-            val statistic = state.value.statistic.toMutableList()
-            val job = viewModelScope.launch(Dispatchers.IO) {
-                for (index in executors.indices){
-                    val user = getUserByIdUseCase(executors[index].userId)
-                    statistic[index] = statistic[index].copy(
-                        name = user.fio
-                    )
-
-                    for (ticket in tickets){
-                        if (ticket.executor == executors[index].id){
-                            statistic[index] = statistic[index].copy(
-                                count = statistic[index].count+1
-                            )
+                        executor = getUserByIdUseCase(it.userId),
+                        tickets = tickets.filter { ticket ->
+                            ticket.executor == it.id
                         }
-                    }
+                    )
                 }
             }
             job.join()
             _state.value = state.value.copy(
                 statistic = statistic.sortedBy { statisticData ->
-                    statisticData.count
+                    statisticData.tickets.size
                 }.reversed()
             )
+
+            Log.i("statistic", state.value.statistic.toString())
+
+//            val statistic = state.value.statistic.toMutableList()
+//            val job = viewModelScope.launch(Dispatchers.IO) {
+//                for (index in executors.indices){
+//                    val user = getUserByIdUseCase(executors[index].userId)
+//                    statistic[index] = statistic[index].copy(
+//                        tickets
+//                    )
+//
+//                    for (ticket in tickets){
+//                        if (ticket.executor == executors[index].id){
+//                            statistic[index] = statistic[index].copy(
+//                                count = statistic[index].count+1
+//                            )
+//                        }
+//                    }
+//                }
+//            }
+//            job.join()
+//            _state.value = state.value.copy(
+//                statistic = statistic.sortedBy { statisticData ->
+//                    statisticData.count
+//                }.reversed()
+//            )
 
 
         }catch (e: Exception){

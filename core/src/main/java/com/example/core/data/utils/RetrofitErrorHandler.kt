@@ -15,7 +15,11 @@ fun <T> retrofitErrorHandler(res: Response<T>): T{
     }else{
         val errorBody = res.errorBody()?.string()
         val errMsg = errorBody?.let {
-            it
+            try {
+                JSONObject(it).getString("errors")
+            }catch (e: Exception){
+                it
+            }
 //            JSONObject(it).getString("errors")
         } ?: run {
             res.code().toString()

@@ -98,9 +98,11 @@ class RequestsViewModel(
                             }
                         }catch (_: Exception){}
                     }
-
-
                 }
+                _tickets.sortBy {
+                    it.ticket?.status == 2
+                }
+                _tickets.reverse()
             }catch (e: Exception){
                 withContext(Dispatchers.Main){
                     _state.value = state.value.copy(
@@ -201,6 +203,7 @@ class RequestsViewModel(
                                 state.value.executor?.id?:0
                             )
                             val executor = getMyUserUseCase()
+
                             ticket.let {
                                 it?.ticket?.executor = state.value.executor?.id
                                 it?.executor = executor

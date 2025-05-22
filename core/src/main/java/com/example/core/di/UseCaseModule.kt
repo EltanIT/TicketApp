@@ -13,6 +13,7 @@ import com.example.core.domain.usecase.GetMyUserUseCase
 import com.example.core.domain.usecase.GetRoleUseCase
 import com.example.core.domain.usecase.GetUserByIdUseCase
 import com.example.core.domain.usecase.LogOutUseCase
+import com.example.core.domain.usecase.ResetPasswordUseCase
 import com.example.core.domain.usecase.SignInUseCase
 import com.example.core.domain.usecase.UpdateTicketStatusUseCase
 import org.koin.dsl.module
@@ -20,6 +21,12 @@ import org.koin.dsl.module
 val useCaseModule = module {
     factory<SignInUseCase> {
         SignInUseCase(
+            get()
+        )
+    }
+
+    factory<ResetPasswordUseCase> {
+        ResetPasswordUseCase(
             get()
         )
     }

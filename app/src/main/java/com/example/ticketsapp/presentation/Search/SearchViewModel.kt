@@ -65,6 +65,13 @@ class SearchViewModel(
             }
             try {
                 val tickets = getAllTicketsUseCase()
+                val departments = getAllDepartmentsUseCase()
+                withContext(Dispatchers.Main){
+                    _state.value = state.value.copy(
+                        departments = departments,
+                        selectedDepartment = departments.last().id
+                    )
+                }
                 allTickets = tickets.map {
                     TicketData(
                         ticket = it
@@ -120,7 +127,8 @@ class SearchViewModel(
                 searchJob = viewModelScope.launch(Dispatchers.IO) {
                     try {
                         val list = allTickets.filter { ticketModel ->
-                            ticketModel.ticket?.id.toString() == event.value
+                            ticketModel.ticket?.id.toString().contains(event.value)
+                                    && ticketModel.ticket?.departmentId == state.value.selectedDepartment
                         }
 
                         _state.value = state.value.copy(
@@ -217,6 +225,7 @@ class SearchViewModel(
                                 state.value.executor?.id?:0
                             )
                             val executor = getMyUserUseCase()
+
                             ticket.let {
                                 it?.ticket?.executor = state.value.executor?.id
                                 it?.executor = executor
@@ -236,6 +245,30 @@ class SearchViewModel(
 
                         _state.value = state.value.copy(
                             selectedTicket = null
+                        )
+                    }catch (e: Exception){
+                        _state.value = state.value.copy(
+                            exception = e.message.toString()
+                        )
+                    }
+                }
+            }
+
+            is SearchEvent.SelectDepartment -> {
+                _state.value = _state.value.copy(
+                    selectedDepartment = state.value.departments[event.index].id
+                )
+
+                searchJob?.cancel("")
+                searchJob = viewModelScope.launch(Dispatchers.IO) {
+                    try {
+                        val list = allTickets.filter { ticketModel ->
+                            ticketModel.ticket?.id.toString().contains(state.value.searchValue)
+                                    && ticketModel.ticket?.departmentId == state.value.selectedDepartment
+                        }
+
+                        _state.value = state.value.copy(
+                            tickets = list
                         )
                     }catch (e: Exception){
                         _state.value = state.value.copy(

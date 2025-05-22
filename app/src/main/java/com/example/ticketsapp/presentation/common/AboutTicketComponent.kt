@@ -24,6 +24,7 @@ import com.example.core.domain.models.DepartmentModel
 import com.example.core.domain.models.RequestTypeModel
 import com.example.core.domain.models.TicketModel
 import com.example.core.domain.models.UserModel
+import com.example.ticketsapp.presentation.utils.dateToDateTimeString
 import com.example.ticketsapp.presentation.utils.requestStatuses
 
 @Composable
@@ -86,7 +87,7 @@ fun AboutTicketComponent(
                 )
             )
             Text(
-                text = ticketModel?.createdAt.toString(),
+                text = ticketModel?.createdAt?.let { dateToDateTimeString(it) }?:"???",
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.W700,

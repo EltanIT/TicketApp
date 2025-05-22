@@ -19,6 +19,7 @@ val authModule = module {
     single<AuthRepository> {
         AuthRepositoryImpl(
             get(),
+            get(),
             get()
         )
     }

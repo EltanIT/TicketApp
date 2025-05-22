@@ -6,5 +6,6 @@ sealed class SearchEvent {
 
     data class EnteredSearch(val value: String): SearchEvent()
     data class SelectTicket(val index: Int): SearchEvent()
+    data class SelectDepartment(val index: Int): SearchEvent()
     data class UpdateTicketStatus(val status: Int): SearchEvent()
 }

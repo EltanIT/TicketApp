@@ -1,7 +1,9 @@
 package com.example.ticketsapp.presentation.Settings
 
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,10 +18,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,12 +39,18 @@ import com.example.ticketsapp.presentation.Search.SearchEvent
 import com.example.ticketsapp.presentation.Settings.components.StatisticComponent
 import com.example.ticketsapp.presentation.common.SecondaryButton
 import com.example.ticketsapp.presentation.common.AboutTicketComponent
+import com.example.ticketsapp.presentation.common.CustomDatePickerDialog
 import com.example.ticketsapp.presentation.common.CustomDialog
+import com.example.ticketsapp.presentation.common.PrimaryButton
 import com.example.ticketsapp.presentation.common.TicketComponent
 import com.example.ticketsapp.presentation.navigation.Route
 import com.example.ticketsapp.presentation.utils.Role
+import com.example.ticketsapp.presentation.utils.dateToDateString
+import com.example.ticketsapp.presentation.utils.isSameDay
 import org.koin.androidx.compose.koinViewModel
+import java.util.Date
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SettingsScreen(
     navController: NavController,
@@ -173,6 +186,8 @@ fun SettingsScreen(
                     ),
                 )
             }
+
+            else -> {}
         }
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -265,18 +280,65 @@ fun SettingsScreen(
     }
 
     if (state.statisticIsOpen){
+
+        var dateDialogIsOpen by remember {
+            mutableStateOf(false)
+        }
+
+        var selectedDate by remember {
+            mutableStateOf(Date())
+        }
+
+        if (dateDialogIsOpen){
+            CustomDatePickerDialog(
+                selectedDate = selectedDate,
+                onSelectDate = {
+                    selectedDate = it
+                }
+            ) {
+                dateDialogIsOpen = !dateDialogIsOpen
+            }
+        }
+
         CustomDialog(
             onClose = {
                 viewModel.onEvent(SettingsEvent.OpenStatistic)
             }
         ) {
+            PrimaryButton(
+                modifier = Modifier.padding(start = 20.dp),
+                text = if (isSameDay(selectedDate, Date())) "Сегодня" else dateToDateString(selectedDate)
+            ) {
+                dateDialogIsOpen = !dateDialogIsOpen
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+
             LazyColumn(
                 modifier = Modifier
                     .background(Color(0xffF2F2F2))
                 ,
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                items(state.statistic){item ->
+                Log.i("ticketsAll", state.statistic.toString())
+
+                val statistic = state.statistic.map { it.copy() }
+
+                Log.i("ticketsInit", statistic.toString())
+
+
+                statistic.forEach {
+                    it.tickets = it.tickets.filter { ticket ->
+                        ticket.completedAt?.let { it1 -> isSameDay(it1, selectedDate) } == true
+                    }
+                }
+
+                Log.i("tickets", statistic.toString())
+
+                items(
+                    statistic.sortedBy {
+                        it.tickets.size
+                    }.reversed()
+                ){item ->
                     StatisticComponent(
                         modifier = Modifier
                             .padding(start = 20.dp, end = 20.dp, bottom = 10.dp)

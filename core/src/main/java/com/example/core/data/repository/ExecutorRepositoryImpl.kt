@@ -1,16 +1,23 @@
 package com.example.core.data.repository
 
 import com.example.core.data.data_source.network.ExecutorApi
+import com.example.core.data.model.DepartmentTypeModelImpl
 import com.example.core.data.model.ExecutorModelImpl
 import com.example.core.data.utils.retrofitErrorHandler
 import com.example.core.domain.models.ExecutorModel
 import com.example.core.domain.repository.ExecutorRepository
+import retrofit2.Response
 
 class ExecutorRepositoryImpl(
     private val api: ExecutorApi
 ): ExecutorRepository {
     override suspend fun getAllExecutors(): List<ExecutorModel> {
-        val response = api.getAllExecutors()
+        val response: Response<List<ExecutorModelImpl>>
+        try{
+            response = api.getAllExecutors()
+        }catch (e: Exception){
+            throw Exception("Ошибка сервера")
+        }
         return retrofitErrorHandler(response)
 
 //        return listOf(
@@ -48,7 +55,12 @@ class ExecutorRepositoryImpl(
     }
 
     override suspend fun getExecutorByUserId(id: Int): ExecutorModel {
-        val response = api.getExecutorByUserId(id)
+        val response: Response<ExecutorModelImpl>
+        try{
+            response = api.getExecutorByUserId(id)
+        }catch (e: Exception){
+            throw Exception("Ошибка сервера")
+        }
         return retrofitErrorHandler(response)
     }
 }

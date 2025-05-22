@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.example.core.domain.models.TicketModel
 import com.example.core.domain.models.UserModel
 import com.example.ticketsapp.presentation.utils.requestStatuses
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun TicketComponent(
@@ -103,8 +105,11 @@ fun TicketComponent(
                     )
                 )
 
+                val formatter = SimpleDateFormat("HH:mm, d MMMM yyyy", Locale("ru"))
+                val formattedDate = ticketModel?.createdAt?.let { formatter.format(it) }
+
                 Text(
-                    text = ticketModel?.createdAt.toString(),
+                    text = formattedDate?:"???",
                     style = MaterialTheme.typography.bodyLarge.copy(
                         lineHeight = 22.sp,
                         color = Color.Black
