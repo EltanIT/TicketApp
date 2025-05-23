@@ -10,6 +10,7 @@ import com.example.core.data.data_source.network.TicketApi
 import com.example.core.data.data_source.network.UserApi
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -35,6 +36,7 @@ val apiModule = module {
     }
 
     single<PasswordResetApi> {
+
         Retrofit.Builder()
             .baseUrl("${host}:7086")
             .client(getUnsafeOkHttpClient())
@@ -115,9 +117,14 @@ private fun getUnsafeOkHttpClient(): OkHttpClient {
         sslContext.init(null, trustAllCerts, java.security.SecureRandom())
         val sslSocketFactory = sslContext.socketFactory
 
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY // Уровень логгирования (BODY показывает всё)
+        }
+
         OkHttpClient.Builder()
             .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
             .hostnameVerifier { _, _ -> true }
+            .addInterceptor(loggingInterceptor)
             .build()
     } catch (e: Exception) {
         throw RuntimeException(e)

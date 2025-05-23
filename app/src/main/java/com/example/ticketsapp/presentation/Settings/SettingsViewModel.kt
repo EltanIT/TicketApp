@@ -47,7 +47,7 @@ class SettingsViewModel(
     val state: State<SettingsState> = _state
 
 
-    private var myTickets: List<TicketData> = emptyList()
+    private var myTickets: MutableList<TicketData> = mutableListOf()
     private var tackedTickets: List<TicketData> = emptyList()
     private var completedTickets: List<TicketData> = emptyList()
 
@@ -317,7 +317,12 @@ class SettingsViewModel(
                     ticket = it,
                     author = state.value.user
                 )
+            }.toMutableList()
+
+            myTickets.sortBy {
+                it.ticket?.status == 2
             }
+            myTickets.reverse()
 
         }catch (e: Exception){
             withContext(Dispatchers.Main){

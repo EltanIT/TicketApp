@@ -14,11 +14,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,15 +33,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.core.domain.models.DepartmentModel
 import com.example.core.domain.models.RequestTypeModel
 import com.example.ticketsapp.R
+import com.example.ticketsapp.presentation.SignIn.components.AuthTextField
 import com.example.ticketsapp.presentation.common.CustomDropDownMenu
 import com.example.ticketsapp.presentation.common.PrimaryButton
 import com.example.ticketsapp.presentation.common.PrimaryTextField
+import com.example.ticketsapp.presentation.ui.theme.HintColor
 
 @Composable
 fun RequestDialogComponent(
@@ -67,6 +73,10 @@ fun RequestDialogComponent(
         mutableStateOf(false)
     }
 
+    var departmentValue by remember{
+        mutableStateOf("")
+    }
+
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp
 
@@ -87,7 +97,9 @@ fun RequestDialogComponent(
                 .clip(RoundedCornerShape(15.dp))
                 .background(Color(0xffD9D9D9), RoundedCornerShape(15.dp))
                 .border(1.dp, Color.Black, RoundedCornerShape(15.dp))
-                .clickable(false) {}
+                .clickable {
+                    departmentExpanded = false
+                }
         ) {
             Column(
                 Modifier
@@ -133,42 +145,97 @@ fun RequestDialogComponent(
                         modifier = Modifier.padding(start = 11.dp)
                     )
 
-                    Box(
+                    Column(
                         Modifier
                             .fillMaxWidth()
                             .clickable {
                                 departmentExpanded = !departmentExpanded
                             }
                             .background(
-                            MaterialTheme.colorScheme.primary, RoundedCornerShape(15.dp)
-                        ),
-                        contentAlignment = Alignment.CenterStart
+                                MaterialTheme.colorScheme.primary, RoundedCornerShape(15.dp)
+                            ),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Center
                     ){
-                        Text(
+//                        AuthTextField(
+//                            modifier = Modifier
+//                                .padding(horizontal = 10.dp, vertical = 10.dp),
+//                            value = departmentValue,
+//                            hintText = "Отдел",
+//                            onPassVisibleChange = { /*TODO*/ }) {
+//                            onChangeDepartment(-1)
+//                            departmentValue = it
+//                            departmentExpanded = true
+//                        }
+                        TextField(
+                            value = departmentValue,
+                            label = {
+                                Text(
+                                    text = "Отдел",
+                                    style = MaterialTheme.typography.bodyLarge.copy(
+                                        color = HintColor
+                                    )
+                                )
+                            },
+                            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.secondary,
+                                textAlign = TextAlign.Start
+                            ),
+                            onValueChange = {
+                                onChangeDepartment(-1)
+                                departmentValue = it
+                                departmentExpanded = true
+                            },
                             modifier = Modifier
-                                .padding(horizontal = 10.dp, vertical = 10.dp),
-                            text = departments[selectedDepartment].name,
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = MaterialTheme.colorScheme.onPrimary,
-                                textAlign = TextAlign.Start,
-                                fontWeight = FontWeight.W700
-                            )
+                                .fillMaxWidth()
+                                .background(Color.Transparent)
                         )
-                        CustomDropDownMenu(
-                            modifier = Modifier
-                                .height((screenHeight/2).dp)
-                                .fillMaxWidth(),
-                            items = departments.map {
-                                it.name
-                            },
-                            expanded = departmentExpanded,
-                            onClose = {
-                                      departmentExpanded = false
-                            },
-                            onSelectItemIndex = {
-                                onChangeDepartment(it)
+
+                        if (departmentExpanded && departments.isNotEmpty()){
+                            LazyColumn(
+                                verticalArrangement = Arrangement.spacedBy(10.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                itemsIndexed(departments.filter {
+                                    it.name.contains(departmentValue, true)
+                                }) { index, item ->
+                                    Text(
+                                        text = item.name,
+                                        style = MaterialTheme.typography.bodyLarge.copy(
+                                            color = Color.Black,
+                                            textAlign = TextAlign.Start,
+                                            fontWeight = FontWeight.W700
+                                        ),
+                                        modifier = Modifier
+                                            .padding(horizontal = 10.dp,vertical = 10.dp)
+                                            .clickable {
+                                                onChangeDepartment(departments.indexOf(item))
+                                                departmentValue = item.name
+                                                departmentExpanded = false
+                                            }
+                                    )
+                                }
                             }
-                        )
+                        }
+//                        CustomDropDownMenu(
+//                            modifier = Modifier
+//                                .height((screenHeight / 2).dp)
+//                                .fillMaxWidth(),
+//                            items = departments.map {
+//                                it.name
+//                            }.filter {
+//                                     it.contains(departmentValue, true)
+//                            },
+//                            expanded = departmentExpanded,
+//                            onClose = {
+//                                      departmentExpanded = false
+//                            },
+//                            onSelectItemIndex = {
+//                                onChangeDepartment(it)
+//                                departmentValue = departments[it].name
+//                            }
+//                        )
                     }
 
                 }
@@ -189,8 +256,8 @@ fun RequestDialogComponent(
                                 problemTypeExpanded = !problemTypeExpanded
                             }
                             .background(
-                            MaterialTheme.colorScheme.primary, RoundedCornerShape(15.dp)
-                        ),
+                                MaterialTheme.colorScheme.primary, RoundedCornerShape(15.dp)
+                            ),
                         contentAlignment = Alignment.CenterStart
                     ) {
                         Text(
@@ -205,7 +272,7 @@ fun RequestDialogComponent(
                         )
                         CustomDropDownMenu(
                             modifier = Modifier
-                                .height((screenHeight/2).dp)
+                                .height((screenHeight / 2).dp)
                                 .fillMaxWidth(),
                             items = problems.map {
                                 it.name

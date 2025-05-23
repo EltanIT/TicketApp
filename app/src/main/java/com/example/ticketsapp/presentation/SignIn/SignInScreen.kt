@@ -114,7 +114,7 @@ fun SignInScreen(
             AuthTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.email,
-                hintText = "example@gmail.com",
+                hintText = "login",
                 enabled = !state.isLoading,
                 isError = !state.emailValid,
                 onPassVisibleChange = {}) {

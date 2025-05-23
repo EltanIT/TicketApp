@@ -58,12 +58,12 @@ class ResetPasswordViewModel(
 
 
     private fun checkValid(): Boolean{
-//        if(!checkEmailValid(state.value.email)){
-//            _state.value = state.value.copy(
-//                emailValid = false
-//            )
-//            return false
-//        }
+        if(!checkEmailValid(state.value.email)){
+            _state.value = state.value.copy(
+                emailValid = false
+            )
+            return false
+        }
         if(state.value.email.isEmpty()){
             _state.value = state.value.copy(
                 exception = "Почта не может быть пустым"

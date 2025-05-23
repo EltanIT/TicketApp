@@ -13,6 +13,7 @@ import com.example.core.domain.manager.UserManager
 import com.example.core.domain.models.LoginRequestModel
 import com.example.core.domain.models.PasswordResetRequestModel
 import com.example.core.domain.repository.AuthRepository
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 class AuthRepositoryImpl(
@@ -62,13 +63,14 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun resetPasswordRequest(model: PasswordResetRequestModel): String {
-        val response: Response<String?>
+        val response: Response<ResponseBody?>
         try {
+            Log.i("retrofitLogs", model.toBody().toString())
             response = passwordApi.requestPasswordReset(model.toBody())
         }catch (e: Exception){
             Log.i("retrofitLogs", e.message.toString())
             throw Exception("Ошибка сервера")
         }
-        return retrofitErrorHandler(response) ?: ""
+        return retrofitErrorHandler(response)?.string() ?: ""
     }
 }
