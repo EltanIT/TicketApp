@@ -38,9 +38,6 @@ fun ResetPasswordScreen(
 ) {
     val state = viewModel.state.value
 
-
-
-
     val context = LocalContext.current
     LaunchedEffect(state.exception.isNotEmpty()) {
         if (state.exception.isNotEmpty()){

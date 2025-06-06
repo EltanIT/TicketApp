@@ -411,7 +411,6 @@ class SettingsViewModel(
             val tickets = getAllTicketsUseCase()
 
             var statistic = state.value.statistic
-
             val job = viewModelScope.launch(Dispatchers.IO) {
                 statistic = executors.map {
                     StatisticData(
@@ -430,32 +429,6 @@ class SettingsViewModel(
             )
 
             Log.i("statistic", state.value.statistic.toString())
-
-//            val statistic = state.value.statistic.toMutableList()
-//            val job = viewModelScope.launch(Dispatchers.IO) {
-//                for (index in executors.indices){
-//                    val user = getUserByIdUseCase(executors[index].userId)
-//                    statistic[index] = statistic[index].copy(
-//                        tickets
-//                    )
-//
-//                    for (ticket in tickets){
-//                        if (ticket.executor == executors[index].id){
-//                            statistic[index] = statistic[index].copy(
-//                                count = statistic[index].count+1
-//                            )
-//                        }
-//                    }
-//                }
-//            }
-//            job.join()
-//            _state.value = state.value.copy(
-//                statistic = statistic.sortedBy { statisticData ->
-//                    statisticData.count
-//                }.reversed()
-//            )
-
-
         }catch (e: Exception){
             _state.value = state.value.copy(
                 exception = e.message.toString()

@@ -20,12 +20,9 @@ fun CustomDatePickerDialog(
     onSelectDate: (Date) -> Unit,
     onClose: () -> Unit
 ) {
-
     val state = rememberDatePickerState(
         initialSelectedDateMillis = selectedDate.toInstant().toEpochMilli()
     )
-
-
     DatePickerDialog(
         onDismissRequest = onClose,
         confirmButton = {
