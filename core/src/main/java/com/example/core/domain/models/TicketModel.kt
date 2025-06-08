@@ -7,7 +7,7 @@ interface TicketModel {
     val id: Int?
     val departmentId: Int
     val createdAt: Date
-    val completedAt: Date?
+    var completedAt: Date?
     var status: Int
     val author: Int
     var executor: Int?

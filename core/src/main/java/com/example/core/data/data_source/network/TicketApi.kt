@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import java.util.Date
 
 interface TicketApi {
 
@@ -26,6 +27,9 @@ interface TicketApi {
 
     @PUT("/Ticket/{id}/status/{statusId}")
     suspend fun updateTicketStatus(@Path("id") id: Int, @Path("statusId") statusId: Int)
+
+    @PUT("/Ticket/dateComplition/{ticketId}")
+    suspend fun updateCompletedDate(@Path("ticketId") ticketId: Int, @Body date: String)
 
 
     @PUT("/Ticket/{id}/assign/{executorId}")

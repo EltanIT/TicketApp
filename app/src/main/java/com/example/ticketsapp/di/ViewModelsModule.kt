@@ -69,6 +69,7 @@ val viewModelsModule = module {
             get(),
             get(),
             get(),
+            get()
         )
     }
 
@@ -84,6 +85,7 @@ val viewModelsModule = module {
             get(),
             get(),
             get(),
+            get()
         )
     }
 

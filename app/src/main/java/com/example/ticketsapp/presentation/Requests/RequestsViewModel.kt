@@ -19,6 +19,7 @@ import com.example.core.domain.usecase.GetAllTicketsUseCase
 import com.example.core.domain.usecase.GetExecutorByUserIdUseCase
 import com.example.core.domain.usecase.GetMyUserUseCase
 import com.example.core.domain.usecase.GetUserByIdUseCase
+import com.example.core.domain.usecase.UpdateTicketCompletedDateUseCase
 import com.example.core.domain.usecase.UpdateTicketStatusUseCase
 import com.example.ticketsapp.presentation.utils.TicketData
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +41,8 @@ class RequestsViewModel(
 
     private val assignExecutorToTicketUseCase: AssignExecutorToTicketUseCase,
     private val getExecutorByUserIdUseCase: GetExecutorByUserIdUseCase,
-    private val updateTicketStatusUseCase: UpdateTicketStatusUseCase
+    private val updateTicketStatusUseCase: UpdateTicketStatusUseCase,
+    private val updateTicketCompletedDateUseCase: UpdateTicketCompletedDateUseCase,
 ): ViewModel() {
 
     private val _state = mutableStateOf(RequestsState())
@@ -210,6 +212,10 @@ class RequestsViewModel(
                             }
                         }
                         updateTicketStatusUseCase(ticket?.ticket?.id?:0, event.status)
+
+                        if (event.status == 1){
+                            updateTicketCompletedDateUseCase(ticket?.ticket?.id?:0)
+                        }
 
                         val index = tickets.indexOfFirst{
                             it.ticket?.id == ticket?.ticket?.id

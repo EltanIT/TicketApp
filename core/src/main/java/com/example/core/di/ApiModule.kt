@@ -48,7 +48,7 @@ val apiModule = module {
 
     single<TicketApi> {
         Retrofit.Builder()
-            .baseUrl("${host}:7215")
+                .baseUrl("${host}:7215")
             .client(getUnsafeOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

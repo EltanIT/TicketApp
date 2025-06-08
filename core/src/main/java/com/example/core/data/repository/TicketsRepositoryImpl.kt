@@ -13,6 +13,7 @@ import com.example.core.domain.repository.TicketsRepository
 import kotlinx.datetime.LocalDateTime
 import retrofit2.Response
 import java.time.Month
+import java.util.Date
 
 class TicketsRepositoryImpl(
     private val api: TicketApi
@@ -109,6 +110,15 @@ class TicketsRepositoryImpl(
     override suspend fun updateTicketStatus(ticketId: Int, status: Int) {
         try{
             api.updateTicketStatus(ticketId, status)
+        }catch (e: Exception){
+            Log.i("retrofitLogs", e.message.toString())
+            throw Exception("Ошибка сервера")
+        }
+    }
+
+    override suspend fun updateTicketCompletedDate(ticketId: Int) {
+        try {
+            api.updateCompletedDate(ticketId, Date().toString())
         }catch (e: Exception){
             Log.i("retrofitLogs", e.message.toString())
             throw Exception("Ошибка сервера")

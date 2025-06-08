@@ -33,10 +33,9 @@ class CreateTicketUseCase(
                 get() = departmentId
             override val createdAt: Date
                 get() = Date()
-//                    sdf.format()
-//            LocalDateTime.parse(sdf.format(Date()))
-            override val completedAt: Date?
+            override var completedAt: Date?
                 get() = null
+                set(value) {}
             override var status: Int
                 get() = 2
                 set(value) {}

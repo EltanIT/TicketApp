@@ -12,7 +12,7 @@ class TicketModelImpl(
     @SerializedName("iD_Ticket") override val id: Int?,
     @SerializedName("iD_Department") override val departmentId: Int,
     @SerializedName("dateOfCreation") @Contextual override val createdAt: Date,
-    @SerializedName("dateOfCompletion") @Contextual override val completedAt: Date?,
+    @SerializedName("dateOfCompletion") @Contextual override var completedAt: Date?,
     override var status: Int,
     override val author: Int,
     override var executor: Int?,
