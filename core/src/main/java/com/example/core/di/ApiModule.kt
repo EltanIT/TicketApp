@@ -20,7 +20,7 @@ import javax.net.ssl.X509TrustManager
 
 val apiModule = module {
 
-    val host = "https://26.103.195.41"
+    val host = "https://81.177.174.94"
     val gson = GsonBuilder()
         .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         .setLenient()

@@ -21,6 +21,8 @@ import com.example.core.domain.usecase.UpdateTicketStatusUseCase
 import com.example.ticketsapp.presentation.utils.TicketData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -84,25 +86,21 @@ class SearchViewModel(
 
                 val authors = getAllAuthorsUseCase()
 
-                val ticketsList = allTickets.toMutableList()
-                for (index in tickets.indices){
-                    launch {
+                allTickets.mapIndexed { index, ticketModel ->
+                    async {
                         try {
                             val author = getUserByIdUseCase(
                                 authors.find {
-                                    it.id == tickets[index].author
+                                    it.id == ticketModel.ticket?.author
                                 }?.userId ?: 0
                             )
-                            ticketsList[index] = ticketsList[index].copy(
-                                author = author
-                            )
-                            allTickets = ticketsList as ArrayList<TicketData>
-                        }catch (e: Exception){
-                            _state.value = state.value.copy(
-                                exception = e.message.toString()
-                            )
-                        }
 
+                            withContext(Dispatchers.Main){
+                                allTickets[index] = allTickets[index].copy(
+                                    author = author
+                                )
+                            }
+                        } catch (_: Exception){}
                     }
                 }
             }catch (e: Exception){

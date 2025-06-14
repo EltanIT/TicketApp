@@ -22,8 +22,11 @@ import com.example.core.domain.usecase.GetUserByIdUseCase
 import com.example.core.domain.usecase.UpdateTicketCompletedDateUseCase
 import com.example.core.domain.usecase.UpdateTicketStatusUseCase
 import com.example.ticketsapp.presentation.utils.TicketData
+import com.example.ticketsapp.presentation.utils.statusOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -75,21 +78,27 @@ class RequestsViewModel(
             try {
                 val tickets = getAllTicketsUseCase()
 
-                withContext(Dispatchers.Main){
-                    _tickets.addAll(tickets.map {
+
+                _tickets.addAll(
+                    tickets.map {
                         TicketData(
                             ticket = it
                         )
-                    })
+                    }
+                )
+                _tickets.sortBy {
+                    statusOrder[it.ticket?.status ?: 0] ?: Int.MAX_VALUE
                 }
 
+
                 val authors = getAllAuthorsUseCase()
-                for (index in tickets.indices){
-                    launch {
+
+                val updatedJob = _tickets.mapIndexed { index, ticketModel ->
+                    async {
                         try {
                             val author = getUserByIdUseCase(
                                 authors.find {
-                                    it.id == tickets[index].author
+                                    it.id == ticketModel.ticket?.author
                                 }?.userId ?: 0
                             )
 
@@ -98,13 +107,9 @@ class RequestsViewModel(
                                     author = author
                                 )
                             }
-                        }catch (_: Exception){}
+                        } catch (_: Exception){}
                     }
                 }
-                _tickets.sortBy {
-                    it.ticket?.status == 2
-                }
-                _tickets.reverse()
             }catch (e: Exception){
                 withContext(Dispatchers.Main){
                     _state.value = state.value.copy(
@@ -131,9 +136,6 @@ class RequestsViewModel(
                 if (event.ticket == null){
                     return
                 }
-
-
-
 
                 var department: DepartmentModel? = null
                 var problemType: RequestTypeModel? = null

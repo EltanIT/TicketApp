@@ -12,8 +12,10 @@ import com.example.core.domain.models.TicketModel
 import com.example.core.domain.repository.TicketsRepository
 import kotlinx.datetime.LocalDateTime
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.time.Month
 import java.util.Date
+import java.util.Locale
 
 class TicketsRepositoryImpl(
     private val api: TicketApi
@@ -118,7 +120,10 @@ class TicketsRepositoryImpl(
 
     override suspend fun updateTicketCompletedDate(ticketId: Int) {
         try {
-            api.updateCompletedDate(ticketId, Date().toString())
+            val formatter = SimpleDateFormat("yyyy-MM-d'T'HH:mm:ss.SSS'Z'")
+            val date = formatter.format(Date())
+            Log.i("retrofitLogs", date)
+            api.updateCompletedDate(ticketId, date)
         }catch (e: Exception){
             Log.i("retrofitLogs", e.message.toString())
             throw Exception("Ошибка сервера")
